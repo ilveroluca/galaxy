@@ -1242,6 +1242,38 @@ class WorkflowsAPIController(BaseAPIController, UsesStoredWorkflowMixin, UsesAnn
         trans.response.set_content_type("application/json")
         return format_return_as_json(ret_dict, pretty=True)
 
+
+    def _generate_invocation_wrocrate(self, trans, invocation_id, **kwd):
+        decoded_workflow_invocation_id = self.decode_id(invocation_id)
+        workflow_invocation = self.workflow_manager.get_invocation(trans, decoded_workflow_invocation_id)
+        history = workflow_invocation.history
+        workflow = workflow_invocation.workflow
+        stored_workflow = workflow.stored_workflow
+
+        # pull in the user info from those who the history and workflow has been shared with
+        contributing_users = [stored_workflow.user]
+
+        # may want to extend this to have more reviewers.
+        reviewing_users = [stored_workflow.user]
+        encoded_workflow_id = trans.security.encode_id(stored_workflow.id)
+        encoded_history_id = trans.security.encode_id(history.id)
+        dict_workflow = json.loads(self.workflow_dict(trans, encoded_workflow_id))
+        wrocrate_dict = {'key': 'hello world!'}
+        return wrocrate_dict
+
+    @expose_api
+    def export_invocation_wrocrate(self, trans, invocation_id, **kwd):
+        '''
+        GET /api/invocations/{invocations_id}/wrocrate
+
+        Return a Workflow Research Object Crate for the workflow invocation.
+
+        The Workflow RO-crate endpoints are in beta - important details
+        will very likely change in important ways over time.
+        '''
+        return self._generate_invocation_wrocrate(trans, invocation_id, **kwd)
+
+
     @expose_api
     def invocation_step(self, trans, invocation_id, step_id, **kwd):
         """

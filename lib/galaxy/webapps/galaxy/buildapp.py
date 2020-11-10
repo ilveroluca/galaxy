@@ -665,6 +665,8 @@ def populate_api_routes(webapp, app):
     connect_invocation_endpoint('show_report_pdf', '/report.pdf', action='show_invocation_report_pdf')
     connect_invocation_endpoint('biocompute/download', '/biocompute/download', action='download_invocation_bco')
     connect_invocation_endpoint('biocompute', '/biocompute', action='export_invocation_bco')
+    connect_invocation_endpoint('wrocrate', '/wrocrate', action='export_invocation_wrocrate')
+    connect_invocation_endpoint('wrocrate/download', '/wrocrate/download', action='download_invocation_wrocrate')
     connect_invocation_endpoint('jobs_summary', '/jobs_summary', action='invocation_jobs_summary')
     connect_invocation_endpoint('step_jobs_summary', '/step_jobs_summary', action='invocation_step_jobs_summary')
     connect_invocation_endpoint('cancel', '', action='cancel_invocation', conditions=dict(method=['DELETE']))
