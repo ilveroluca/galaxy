@@ -1258,6 +1258,17 @@ class WorkflowsAPIController(BaseAPIController, UsesStoredWorkflowMixin, UsesAnn
 
         user = stored_workflow.user
 
+        log.info("===========================")
+        log.info("StoredWorkflow properties: %s", dir(stored_workflow))
+        log.info("StoredWorkflow annotations: %s", stored_workflow.annotations)
+        log.info("StoredWorkflow auto_propagated_tags: %s", stored_workflow.auto_propagated_tags)
+        log.info("StoredWorkflow tags: %s", stored_workflow.tags)
+        log.info("StoredWorkflow owner_tags: %s", stored_workflow.owner_tags)
+        log.info("StoredWorkflow ratings: %s", stored_workflow.ratings)
+        log.info("StoredWorkflow dictionary: %s", stored_workflow.to_dict())
+        log.info("===========================")
+        log.info("Workflow properties: %s", dir(workflow))
+
         crate = roc.ROCrate()
 
         author = crate.add_person("#" + user.username,
